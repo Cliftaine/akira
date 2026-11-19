@@ -1,0 +1,13 @@
+name: typescript
+manifest: package.json
+tools: [node, npx]
+commands:
+  format_check: npx --no-install prettier --check .
+  lint: npx --no-install eslint . && npx --no-install tsc --noEmit
+  test: npx --no-install vitest run --coverage
+  api_spec: null
+  e2e: npx --no-install playwright test
+test_globs: ["**/*.test.*", "**/*.spec.*", "**/__tests__/**", "tests/**", "e2e/**"]
+docker:
+  test_base: node:lts
+  test_command: npx vitest run

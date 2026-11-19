@@ -1,0 +1,14 @@
+name: go
+manifest: go.mod
+tools: [go, gofmt, golangci-lint]
+commands:
+  # gofmt -l siempre sale con 0; lo convertimos en salida binaria.
+  format_check: 'out="$(gofmt -l $(go list -f "{{.Dir}}" ./... 2>/dev/null || echo .))"; if [ -n "$out" ]; then echo "Archivos sin formato:"; echo "$out"; exit 1; fi'
+  lint: golangci-lint run ./...
+  test: go test ./... -cover
+  api_spec: swag init
+  e2e: null
+test_globs: ["**/*_test.go", "tests/**"]
+docker:
+  test_base: golang:alpine
+  test_command: go test ./...

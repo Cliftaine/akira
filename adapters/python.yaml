@@ -1,0 +1,13 @@
+name: python
+manifest: pyproject.toml
+tools: [python3, ruff, mypy, pytest]
+commands:
+  format_check: ruff format --check .
+  lint: ruff check . && mypy .
+  test: pytest --cov
+  api_spec: null
+  e2e: null
+test_globs: ["**/test_*.py", "**/*_test.py", "tests/**"]
+docker:
+  test_base: python:slim
+  test_command: pytest
